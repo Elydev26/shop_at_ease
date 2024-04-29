@@ -1,63 +1,70 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { Repository } from 'typeorm';
-import { hash, compare } from 'bcrypt';
-import { InjectRepository } from '@nestjs/typeorm';
+import {
+  Injectable,
+  BadRequestException,
+  ConflictException,
+  NotFoundException,
+} from '@nestjs/common';
+import { CreateUserDto } from '../dtos/user.dto';
 import { User } from '../entities/user.entity';
-import { CreateUserDto } from '../dto/user.dto';
-import { Role } from 'src/database/entities/role.entity';
-import { UserRelation } from '../dto/user.types';
-import { errorMessages } from 'src/errors/custom';
+import bcrypt from 'bcrypt';
+import { DataSource, EntityManager } from 'typeorm';
 
 @Injectable()
 export class UserService {
-  constructor(
-    @InjectRepository(User) private readonly repository: Repository<User>,
-  ) {}
-
-  public async createUser(
-    body: CreateUserDto,
-    ...roles: Role[]
-  ): Promise<User> {
-    body.password = await hash(body.password, 10);
-    const user: User = this.repository.create({
-      ...body,
-      roles,
-    });
-
-    return this.repository.save(user);
+  private dbManager: EntityManager;
+  constructor(private readonly datasource: DataSource) {
+    this.dbManager = datasource.manager;
   }
 
-  public async findByEmail(
-    email: string,
-    relations?: UserRelation,
-  ): Promise<User> {
-    const user: User = await this.repository.findOne({
+  async createUser(userSignUpDto: CreateUserDto): Promise<User> {
+    const { password } = userSignUpDto;
+
+    const existingUser = await this.dbManager.findOne(User, {
       where: {
-        email,
+        email: userSignUpDto.email,
       },
-      relations,
     });
+    if (existingUser) {
+      throw new ConflictException('Email already exist!!');
+    }
+    const hash = bcrypt.hashSync(password, 10);
+
+    const newUser = this.dbManager.create(User, {
+      ...userSignUpDto,
+      password: hash,
+    });
+
+    const savedNewUser = await this.dbManager.save(newUser);
+
+    if (!savedNewUser) {
+      throw new BadRequestException(' No user was created');
+    }
+    return savedNewUser;
+  }
+
+  async getUserByEmail(email: string): Promise<User> {
+    const user = await this.dbManager.findOne(User, {
+      where: {
+        email: email,
+      },
+    });
+
     return user;
   }
 
-  public async comparePassword(password, userPassword): Promise<boolean> {
-    return compare(password, userPassword);
-  }
+  async getUserById(userId: string): Promise<User> {
+    const user = await this.dbManager.findOneBy(User, { id: userId });
 
-  public async findById(id: number, relations?: UserRelation): Promise<User> {
-    const user: User = await this.repository.findOne({
-      where: {
-        id,
-      },
-      relations,
-    });
     if (!user) {
-      throw new NotFoundException(errorMessages.user.notFound);
+      throw new NotFoundException('User not found');
     }
     return user;
   }
 
-  public async save(user: User) {
-    return this.repository.save(user);
+  async getUsers(): Promise<User[]> {
+    const users = await this.dbManager.find(User, {
+      select: ['firstName', 'lastName', 'email'],
+    });
+    return users;
   }
 }
