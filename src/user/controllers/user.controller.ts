@@ -1,9 +1,9 @@
-import { AuthService } from '@/auth/auth.service';
-import { UserService } from './user.service';
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
-import { UserSignInDto, UserSignUpDto } from './dto/user.dto';
-import { User } from './entities/user.entity';
-import { IsAuthenticated } from '@/shared/isAuthenticated.guard';
+import { AuthService } from 'src/auth/services/auth.service';
+import { User } from '../entities/user.entity';
+import { IsAuthenticated } from '../guards/user.guard';
+import { UserService } from '../services/user.service';
+import { CreateUserDto } from '../dtos/user.dto';
 
 @Controller('user')
 export class UserController {
@@ -15,7 +15,7 @@ export class UserController {
   @Post('signup')
   @UseGuards(IsAuthenticated)
   async signup(
-    @Body() userSignUpDto: UserSignUpDto,
+    @Body() userSignUpDto: CreateUserDto,
   ): Promise<{ accessToken: string }> {
     return this.authService.signup(userSignUpDto);
   }
@@ -23,7 +23,7 @@ export class UserController {
   @Post('signin')
   @UseGuards(IsAuthenticated)
   signin(
-    @Body() userSignInDto: UserSignInDto,
+    @Body() userSignInDto: CreateUserDto,
   ): Promise<{ user: User; verifyT: string }> {
     return this.authService.signin(userSignInDto);
   }

@@ -57,7 +57,8 @@
 //   }
   
 
-  import { Column, ManyToMany } from 'typeorm';
+  import { Product } from 'src/product/entities/product.entity';
+import { Column, ManyToMany } from 'typeorm';
 import { Entity, PrimaryGeneratedColumn } from 'typeorm';
 // import { Product } from '../../product/entities/product.entity';
 
@@ -83,8 +84,8 @@ export class User {
 
   //relation
 
-  // @ManyToMany(() => Product, (product) => product.cartProducts)
-  // products: Product[];
+  @ManyToMany(() => Product, (product) => product.cartProducts)
+  products: Product[];
 
   // @ManyToOne(() => User, (user) => user.carts)
   // user: User;

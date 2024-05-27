@@ -1,7 +1,7 @@
 import { omit, unset } from 'lodash';
-import { pathFromSrc } from '../src/config/helpers/general';
 import { DataSourceOptions } from 'typeorm';
-import processDatabaseConfig from '../src/config/envs/database.config';
+import { pathFromSrc } from './helpers/general';
+import processDatabaseConfig from './config/envs/database.config';
 
 type TypeOrmDataSourceOptions = DataSourceOptions & {
   seeds: string[];
@@ -20,7 +20,7 @@ if (databaseConfig.url) {
 }
 
 const defaultDataSourceOptions: TypeOrmDataSourceOptions = {
-  applicationName: 'shop_at_ease_app',
+  applicationName: 'shop_at_ease',
   name: 'default',
   type: 'postgres',
   ...omit(databaseConfig, ['maxPoolConnCount']),
@@ -39,7 +39,7 @@ const defaultDataSourceOptions: TypeOrmDataSourceOptions = {
   dropSchema: false,
   migrationsTransactionMode: 'all',
   metadataTableName: 'typeorm_metadata',
-  maxQueryExecutionTime: 15000, //Ideal should be 10000 (10s)
+  maxQueryExecutionTime: 10000,
   installExtensions: true,
   logNotifications: true,
   ssl: true,

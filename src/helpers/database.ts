@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { capitalize } from 'lodash';
 import { DataSource } from 'typeorm';
-import * as defaultConnection from '../database/connections/default';
+import * as defaultConnection from '../config/database/connections/default';
 
 export const dataSourceFor = (connectionName = 'default'): DataSource => {
   try {

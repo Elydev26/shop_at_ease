@@ -1,15 +1,10 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import processEnvObj from './config/envs';
-import { Logger, VersioningType } from '@nestjs/common';
+import { Logger } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
-  app.enableVersioning({
-    type: VersioningType.URI,
-    prefix: 'v1',
-  });
 
   const appName = processEnvObj.PROJECT_NAME || 'Nest Js app';
   const port = Number(processEnvObj.SERVER_PORT || 4200);
