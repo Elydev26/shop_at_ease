@@ -4,11 +4,12 @@ import {
     UnauthorizedException,
   } from '@nestjs/common';
   import { DataSource, EntityManager } from 'typeorm';
-  import { UserService } from '../user/user.service';
   import * as bcrypt from 'bcrypt';
-  import { User } from '@/user/entities/user.entity';
-  import { UserSignInDto, UserSignUpDto } from './dto/dto';
-  import { TokenService } from '../auth/token/token.service';
+import { User } from 'src/user/entities/user.entity';
+import { UserService } from 'src/user/services/user.service';
+import { TokenService } from '../token/token.service';
+import { CreateUserDto, SignInDto } from 'src/user/dtos/user.dto';
+
   
   @Injectable()
   export class AuthService {
@@ -27,7 +28,7 @@ import {
     }
   
     async signup(
-      userSignUpDto: UserSignUpDto,
+      userSignUpDto: CreateUserDto,
     ): Promise<{ user: User; accessToken: string }> {
       const user = await this.userService.createUser(userSignUpDto);
       const accessToken = this.tokenService.generateAccessToken(user);
@@ -39,7 +40,7 @@ import {
     }
   
     async signin(
-      userSignInDto: UserSignInDto,
+      userSignInDto: SignInDto,
     ): Promise<{ user: User; verifyT: string }> {
       const { email, password } = userSignInDto;
   

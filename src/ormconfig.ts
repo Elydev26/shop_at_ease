@@ -1,7 +1,7 @@
 import { omit, unset } from 'lodash';
-import { pathFromSrc } from '../src/config/helpers/general';
 import { DataSourceOptions } from 'typeorm';
-import processDatabaseConfig from '../src/config/envs/database.config';
+import { pathFromSrc } from './helpers/general';
+import processDatabaseConfig from './config/envs/database.config';
 
 type TypeOrmDataSourceOptions = DataSourceOptions & {
   seeds: string[];
@@ -20,7 +20,7 @@ if (databaseConfig.url) {
 }
 
 const defaultDataSourceOptions: TypeOrmDataSourceOptions = {
-  applicationName: 'shop_at_ease_app',
+  applicationName: 'lawma_app',
   name: 'default',
   type: 'postgres',
   ...omit(databaseConfig, ['maxPoolConnCount']),

@@ -2,7 +2,9 @@ import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { compare, hash } from 'bcrypt';
-import { AuthTokenPayload } from 'src/lib/type.lib';
+import {
+  AuthTokenPayload,
+} from 'src/lib/types';
 import axios from 'axios';
 
 @Injectable()
