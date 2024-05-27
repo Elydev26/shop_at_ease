@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
-import { AuthService } from 'src/auth/services/token.service';
+import { AuthService } from 'src/auth/services/auth.service';
 import { User } from '../entities/user.entity';
 import { IsAuthenticated } from '../guards/user.guard';
 import { UserService } from '../services/user.service';

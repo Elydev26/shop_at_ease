@@ -35,9 +35,9 @@ export class ProductController {
   async searchProducts(
     @Query('search') searchQuery: string,
   ): Promise<Product[]> {
-    if (!searchQuery || typeof searchQuery !== 'string') {
-      throw new BadRequestException('searchQuery must be a non-empty string');
-    }
+    // if (!searchQuery || typeof searchQuery !== 'string') {
+    //   throw new BadRequestException('searchQuery must be a non-empty string');
+    // }
 
     return await this.productService.searchProducts(searchQuery);
   }

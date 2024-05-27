@@ -13,7 +13,7 @@ import { Cart } from '../entities/cart.entity';
 import { CartDto } from '../dto/cart.dto';
 import { AuthTokenPayload } from 'src/lib/types';
 import { GetAuthPayload } from 'src/shared/getAuthenticatedUserPayload.decorator';
-import { IsAuthenticated } from 'src/shared/helpers/guards/isAuthenticated.guard';
+import { IsAuthenticated } from 'src/user/guards/user.guard';
 
 @Controller('cart')
 export class CartController {

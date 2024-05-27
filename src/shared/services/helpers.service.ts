@@ -1,3 +1,4 @@
+//import { EntityUserProfile } from '../../utils-billing/entitties/entityUserProfile.entity';
 import { Injectable } from '@nestjs/common';
 import { DataSource, EntityManager } from 'typeorm';
 

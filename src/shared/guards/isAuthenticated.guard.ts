@@ -4,7 +4,6 @@ import { AuthenticatedUserData, PlatformRequest } from 'src/lib/types';
 
 export class IsAuthenticated implements CanActivate {
   constructor() {
-    //
   }
   canActivate(
     context: ExecutionContext,

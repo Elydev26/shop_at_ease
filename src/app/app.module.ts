@@ -23,10 +23,10 @@ import { OrderModule } from 'src/order/order.module';
 import { ProductModule } from 'src/product/product.module';
 import { ExtractTokenMiddleWare } from 'src/shared/extractToken.middleware';
 import { SharedModule } from 'src/shared/shared.module';
-import { SharedService } from 'src/shared/services/shared.service';
 import { UserService } from 'src/user/services/user.service';
 import { UserModule } from 'src/user/user.module';
 import { AppService } from './services/app.service';
+import { SharedService } from 'src/shared/services/shared.service';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const cors = require('cors');
@@ -36,14 +36,6 @@ const validator = new ValidationPipe({
   transform: true,
   exceptionFactory(errors) {
     const formattedErrors = errors;
-    // .reduce((prev, error) => {
-    //   if (!has(prev, error.property)) {
-    //     prev[error.property] = first(values(error.constraints || {}));
-    //   }
-
-    //   return prev;
-    // }, {} as Record<string, string>);
-
     return new BadRequestException(
       {
         type: 'VALIDATION_ERROR',
@@ -117,8 +109,6 @@ const validator = new ValidationPipe({
     CartModule,
     OrderModule,
     ProductModule,
-    // TokenService,
-    //UtilsBillingModule,
   ],
   providers: [
     {

@@ -20,7 +20,7 @@ if (databaseConfig.url) {
 }
 
 const defaultDataSourceOptions: TypeOrmDataSourceOptions = {
-  applicationName: 'lawma_app',
+  applicationName: 'shop_at_ease',
   name: 'default',
   type: 'postgres',
   ...omit(databaseConfig, ['maxPoolConnCount']),
@@ -39,7 +39,7 @@ const defaultDataSourceOptions: TypeOrmDataSourceOptions = {
   dropSchema: false,
   migrationsTransactionMode: 'all',
   metadataTableName: 'typeorm_metadata',
-  maxQueryExecutionTime: 15000, //Ideal should be 10000 (10s)
+  maxQueryExecutionTime: 10000,
   installExtensions: true,
   logNotifications: true,
   ssl: true,
